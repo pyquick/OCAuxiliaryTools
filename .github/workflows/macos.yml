@@ -38,9 +38,15 @@ jobs:
           fetch-depth: 1
       - name: build macos
         run: |
-          qmake
-          make
-          
+          rm -rf build-macos-universal bin/release
+          mkdir build-macos-universal
+          cd build-macos-universal
+          qmake ../OCAuxiliaryTools.pro CONFIG+=release CONFIG+=universal
+          make -j$(sysctl -n hw.ncpu)
+          lipo -info ../bin/release/${targetName}.app/Contents/MacOS/${targetName}
+          lipo -verify_arch x86_64 arm64 ../bin/release/${targetName}.app/Contents/MacOS/${targetName}
+          cd ..
+
       # 打包
       - name: package
         run: |
