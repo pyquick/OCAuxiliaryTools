@@ -328,7 +328,7 @@ void Method::kextUpdate() {
       }  // end !isDev
       else {
         QString strName = name;
-        strName = strName.replace(".kext", 0);
+        strName = strName.replace(".kext", "");
         QString url = mw_one->dlgSyncOC->getKextDevDL(
             mw_one->dlgSyncOC->bufferJson, strName.trimmed());
         startDownload(url);
@@ -917,7 +917,11 @@ QString Method::loadText(QString textFile) {
 
     } else {
       QTextStream in(&file);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
       in.setCodec("UTF-8");
+#else
+      in.setEncoding(QStringConverter::Utf8);
+#endif
       QString text = in.readAll();
       return text;
     }

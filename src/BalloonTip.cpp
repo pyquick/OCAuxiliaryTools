@@ -2,14 +2,15 @@
 
 #include <QApplication>
 #include <QBitmap>
-#include <QDesktopWidget>
 #include <QGridLayout>
+#include <QGuiApplication>
 #include <QLabel>
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QPushButton>
+#include <QScreen>
 #include <QStyle>
 
 #include "mainwindow.h"
@@ -94,8 +95,9 @@ BalloonTip::BalloonTip(QMessageBox::Icon icon, const QString &title,
   msgLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 
   // smart size for the message label
-  int limit =
-      QApplication::desktop()->availableGeometry(msgLabel).size().width() / 3;
+  QScreen* screen = QGuiApplication::screenAt(mapToGlobal(pos()));
+  if (!screen) screen = QGuiApplication::primaryScreen();
+  int limit = screen ? screen->availableGeometry().size().width() / 3 : 300;
 
   if (msgLabel->sizeHint().width() > limit) {
     msgLabel->setWordWrap(true);
@@ -135,7 +137,7 @@ BalloonTip::BalloonTip(QMessageBox::Icon icon, const QString &title,
     QLabel *iconLabel = new QLabel;
     iconLabel->setPixmap(si.pixmap(iconSize, iconSize));
     iconLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    iconLabel->setMargin(2);
+    iconLabel->setContentsMargins(2, 2, 2, 2);
     layout->addWidget(iconLabel, 0, 0);
     layout->addWidget(titleLabel, 0, 1);
   } else {
@@ -145,7 +147,7 @@ BalloonTip::BalloonTip(QMessageBox::Icon icon, const QString &title,
   // layout->addWidget(closeButton, 0, 2);
   layout->addWidget(msgLabel, 1, 0, 1, 3);
   layout->setSizeConstraint(QLayout::SetFixedSize);
-  layout->setMargin(3);
+  layout->setContentsMargins(3, 3, 3, 3);
   setLayout(layout);
 
   QPalette pal = palette();

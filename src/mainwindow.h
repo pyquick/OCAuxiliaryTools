@@ -7,7 +7,6 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDesktopServices>
-#include <QDesktopWidget>
 #include <QGuiApplication>
 #include <QLatin1Char>
 #include <QListWidgetItem>
