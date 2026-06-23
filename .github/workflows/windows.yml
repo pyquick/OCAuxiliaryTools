@@ -21,10 +21,7 @@ jobs:
       # 矩阵配置
       matrix:
         include:
-         
-         
-          # 5.15.2 参考 https://mirrors.cloud.tencent.com/qt/online/qtsdkrepository/windows_x86/desktop/qt5_5152/
-         
+          # 6.11.1 参考 https://mirrors.cloud.tencent.com/qt/online/qtsdkrepository/windows_x86/desktop/qt6_6111/
           - qt_ver: 6.11.1          
             qt_arch: win64_msvc2019_64
             msvc_arch: x64
