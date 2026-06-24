@@ -8,7 +8,6 @@
 #include <sstream>
 
 #include "Plist.hpp"
-using namespace std;
 
 // Qt includes
 #include <QDate>
@@ -141,14 +140,14 @@ QString PListSerializer::toPList(const QVariant& variant, QString FileName) {
   } else {
     QFileInfo fi(FileName);
     if (fi.exists()) {
-      map<string, boost::any> dict;
+      std::map<std::string, boost::any> dict;
 
       QString path = fi.path();
       QDir dir;
       if (dir.exists(path)) dir.setCurrent(path);
 
       QString str = fi.fileName();
-      string baseName = string(str.toLocal8Bit());
+      std::string baseName = std::string(str.toLocal8Bit());
 
       QString strData = document.toString();
       std::string mystring = strData.toStdString();
@@ -166,14 +165,14 @@ QString PListSerializer::toPList(const QVariant& variant, QString FileName) {
 bool PListSerializer::fileValidation(QString FileName) {
   QFileInfo fi(FileName);
   if (fi.exists()) {
-    map<string, boost::any> dict;
+    std::map<std::string, boost::any> dict;
 
     QString path = fi.path();
     QDir dir;
     if (dir.exists(path)) dir.setCurrent(path);
 
     QString str = fi.fileName();
-    string baseName = string(str.toLocal8Bit());
+    std::string baseName = std::string(str.toLocal8Bit());
     try {
       Plist::readPlist(baseName.c_str(), dict);
     } catch (...) {
