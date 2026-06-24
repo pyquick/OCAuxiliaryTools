@@ -16,6 +16,7 @@ bin/release/OCAuxiliaryTools
 ._*
 .DS_Store
 moc_*.cpp
+*.claude
 *.o
 MakeFile
 ## Ignore Visual Studio temporary files, build results, and
