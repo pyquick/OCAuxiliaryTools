@@ -50,6 +50,21 @@ Third, click to get the latest version, or get the OC version of your choiceï¼ˆç
 ![image](https://github.com/ic005k/OCAuxiliaryTools/assets/7905253/e3331a23-4744-4075-b820-e58878c36dc8)
 
 
+## macOS universal build
+
+Use a Qt for macOS package that contains both `x86_64` and `arm64` slices, then build from a clean out-of-source directory:
+
+```bash
+rm -rf build-macos-universal bin/release
+mkdir build-macos-universal
+cd build-macos-universal
+qmake ../OCAuxiliaryTools.pro CONFIG+=release CONFIG+=universal
+make -j$(sysctl -n hw.ncpu)
+lipo -info ../bin/release/OCAuxiliaryTools.app/Contents/MacOS/OCAuxiliaryTools
+```
+
+The `CONFIG+=universal` option sets `QMAKE_APPLE_DEVICE_ARCHS` to `x86_64 arm64` on macOS.
+
 ## Credits
 * [vit9696](https://github.com/vit9696) OCAT feature suggestions etc.
 * [5T33Z0](https://github.com/5T33Z0) Intel CPU plug-in package for OCAT, suggestions for user interaction and functionality, Write Readme, etc.

@@ -12,6 +12,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++11
 TARGET= OCAuxiliaryTools
 
+macx:universal {
+    QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
+}
+
 unix:!macx:{
 
     QMAKE_RPATHDIR=$ORIGIN
