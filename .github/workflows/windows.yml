@@ -22,7 +22,7 @@ jobs:
       matrix:
         include:
           # 6.11.1 参考 https://mirrors.cloud.tencent.com/qt/online/qtsdkrepository/windows_x86/desktop/qt6_6111/
-          - qt_ver: [6.11.1]
+          - qt_ver: 6.11.1
             qt_arch: win64_msvc2022_64
             msvc_arch: x64
           
@@ -33,17 +33,13 @@ jobs:
       
     # 步骤
     steps:
-      # 安装Qt
       - name: Install Qt
-        # 使用外部action。这个action专门用来安装Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
-          # Version of Qt to install
           version: ${{ matrix.qt_ver }}
-          # Target platform for build
-          # target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
-          cached: 'false'
+          cache: false
+          aqtversion: '>=3.2.0'
       # 拉取代码
       - uses: actions/checkout@v2
         with:
@@ -54,6 +50,13 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{ matrix.msvc_arch }}
+
+      - name: Verify Qt tools
+        shell: pwsh
+        run: |
+          Get-Command qmake | Format-List
+          Get-Command windeployqt | Format-List
+          qmake -v
 
       # msvc编译
       - name: msvc-build
@@ -71,9 +74,8 @@ jobs:
       - name: package
         id: package      
         env:
-          #archiveName: ${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}
           archiveName: ${{ env.orgName }}-${{ env.VERSION }}
-          msvcArch: ${{ matrix.msvc_arch }}          
+          msvcArch: ${{ matrix.msvc_arch }}
         shell: pwsh
         run: |
           & scripts\windows-publish.ps1 ${env:archiveName} ${env:targetName}

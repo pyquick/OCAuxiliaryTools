@@ -17,13 +17,8 @@ jobs:
     strategy:
       matrix:
         include:
-          #- qt_arch: win32_mingw81
-          #  qt_ver: 5.15.2
-          #  qt_tools: "tools_mingw,8.1.0-1-202004170606,qt.tools.win32_mingw810"
-          #  qt_tools_mingw_install: mingw810_32
-            
           - qt_arch: win64_mingw
-            qt_ver: [6.11.1]
+            qt_ver: 6.11.1
             qt_tools: "tools_mingw1310,qt.tools.win64_mingw1310"
             qt_tools_mingw_install: mingw1310_64
           
@@ -33,32 +28,28 @@ jobs:
       
     steps:
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qt_ver }}
           arch: ${{ matrix.qt_arch }}
           tools: ${{ matrix.qt_tools }}
-          cached: 'false'
+          cache: false
+          aqtversion: '>=3.2.0'
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
-      - name: Qt 5 environment configuration
-        if: ${{ startsWith( matrix.qt_ver, 5 ) }}
-        shell: pwsh
-        run: |
-          Write-Output "${{ env.Qt5_DIR }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          Write-Output "${{ env.Qt5_DIR }}/../../Tools/${{ matrix.qt_tools_mingw_install }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      - name: Qt 6 environment configuration
-        if: ${{ startsWith( matrix.qt_ver, 6 ) }}
+      - name: Configure Qt and MinGW environment
         shell: pwsh
         run: |
           Write-Output "${{ env.Qt6_DIR }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           Write-Output "${{ env.Qt6_DIR }}/../../Tools/${{ matrix.qt_tools_mingw_install }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-      - name: where is qmake & where is mingw32-make
+      - name: Verify Qt and MinGW tools
         shell: pwsh
         run: |
           Get-Command -Name 'qmake' | Format-List
           Get-Command -Name 'mingw32-make' | Format-List
+          Get-Command -Name 'windeployqt' | Format-List
+          qmake -v
       - name: mingw-build
         id: build
         shell: cmd
@@ -70,8 +61,7 @@ jobs:
       - name: package
         id: package      
         env:
-          #archiveName: ${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}
-          archiveName: ${{ env.orgName }}-${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}
+          archiveName: ${{ env.orgName }}-${{ matrix.qt_ver }}-${{ matrix.qt_arch }}
           
         shell: pwsh
         run: |
