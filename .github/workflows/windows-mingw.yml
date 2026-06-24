@@ -23,7 +23,7 @@ jobs:
           #  qt_tools_mingw_install: mingw810_32
             
           - qt_arch: win64_mingw
-            qt_ver: 6.11.1
+            qt_ver: [6.11.1]
             qt_tools: "tools_mingw1310,qt.tools.win64_mingw1310"
             qt_tools_mingw_install: mingw1310_64
           
