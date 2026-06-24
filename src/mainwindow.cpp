@@ -5036,7 +5036,7 @@ void MainWindow::init_FileMenu() {
   ui->actionSave_As->setShortcut(tr("ctrl+shift+s"));
 
   // Preferences
-  // ui->actionPreferences->setMenuRole(QAction::PreferencesRole);
+  ui->actionPreferences->setMenuRole(QAction::NoRole);
 
   // Quit
   ui->actionQuit->setMenuRole(QAction::QuitRole);
@@ -5088,6 +5088,7 @@ void MainWindow::init_EditMenu() {
 
   // Open DataBase
   if (mac || osx1012) ui->actionDatabase->setIconVisibleInMenu(false);
+  ui->actionDatabase->setMenuRole(QAction::NoRole);
   ui->actionDatabase->setShortcut(tr("ctrl+d"));
   ui->actionDatabase->setIcon(QIcon(":/icon/db.png"));
 
@@ -9806,7 +9807,9 @@ void MainWindow::on_actionPreferences_triggered() {
   else
     myDlgPreference->ui->tabWidget->setDocumentMode(false);
 
-  myDlgPreference->setWindowTitle(tr("Preferences"));
+  QString title = ui->actionPreferences->text();
+  title.remove("...");
+  myDlgPreference->setWindowTitle(title);
   myDlgPreference->refreshKextUrl(true);
   myDlgPreference->setModal(true);
   myDlgPreference->show();
