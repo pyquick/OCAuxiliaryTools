@@ -42,7 +42,7 @@ jobs:
           cd build-macos-universal
           qmake ../OCAuxiliaryTools.pro CONFIG+=release CONFIG+=universal
           make -j$(sysctl -n hw.ncpu)
-          lipo -info ../bin/release/${targetName}.app/Contents/MacOS/${targetName}
+          lipo  ../bin/release/${targetName}.app/Contents/MacOS/${targetName} -info
           lipo ../bin/release/${targetName}.app/Contents/MacOS/${targetName}  -arch x86_64 arm64
           cd ..
 
