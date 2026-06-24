@@ -43,7 +43,7 @@ jobs:
           qmake ../OCAuxiliaryTools.pro CONFIG+=release CONFIG+=universal
           make -j$(sysctl -n hw.ncpu)
           lipo  ../bin/release/${targetName}.app/Contents/MacOS/${targetName} -info
-          lipo ../bin/release/${targetName}.app/Contents/MacOS/${targetName}  -archs x86_64 arm64
+          lipo ../bin/release/${targetName}.app/Contents/MacOS/${targetName}  -verify_arch x86_64 arm64
           cd ..
 
       # 打包
