@@ -22,7 +22,7 @@ jobs:
       matrix:
         include:
           # 6.11.1 参考 https://mirrors.cloud.tencent.com/qt/online/qtsdkrepository/windows_x86/desktop/qt6_6111/
-          - qt_ver: 6.11.1
+          - qt_ver: '6.8.3'
             qt_arch: win64_msvc2022_64
             msvc_arch: x64
           
@@ -39,8 +39,7 @@ jobs:
           version: ${{ matrix.qt_ver }}
           arch: ${{ matrix.qt_arch }}
           cache: false
-          use-official: true
-          aqtversion: '>=3.2.0'
+
       # 拉取代码
       - uses: actions/checkout@v2
         with:

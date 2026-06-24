@@ -18,7 +18,7 @@ jobs:
       matrix:
         include:
           - qt_arch: win64_mingw
-            qt_ver: 6.11.1
+            qt_ver: '6.8.3'
             qt_tools: "tools_mingw1310,qt.tools.win64_mingw1310"
             qt_tools_mingw_install: mingw1310_64
           
@@ -34,8 +34,7 @@ jobs:
           arch: ${{ matrix.qt_arch }}
           tools: ${{ matrix.qt_tools }}
           cache: false
-          use-official: true
-          aqtversion: '>=3.2.0'
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
