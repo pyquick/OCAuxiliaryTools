@@ -22,10 +22,10 @@ jobs:
           #  qt_tools: "tools_mingw,8.1.0-1-202004170606,qt.tools.win32_mingw810"
           #  qt_tools_mingw_install: mingw810_32
             
-          - qt_arch: win64_mingw81
+          - qt_arch: win64_mingw
             qt_ver: 6.11.1
-            qt_tools: "tools_mingw,8.1.0-1-202004170606,qt.tools.win64_mingw810"
-            qt_tools_mingw_install: mingw810_64
+            qt_tools: "tools_mingw1310,qt.tools.win64_mingw1310"
+            qt_tools_mingw_install: mingw1310_64
           
     env:
       targetName: OCAuxiliaryTools.exe
@@ -79,7 +79,7 @@ jobs:
            $name = ${env:archiveName}
            echo "::set-output name=packageName::$name"       
            
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.package.outputs.packageName }}
           path: ${{ steps.package.outputs.packageName }}.zip
