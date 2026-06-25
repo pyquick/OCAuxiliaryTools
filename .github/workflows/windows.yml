@@ -64,7 +64,7 @@ jobs:
         shell: cmd
         run: |
           #call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${{ matrix.msvc_arch }}
-          qmake -spec win32-msvc2022
+          qmake -spec win64_msvc2022_64
           nmake
           echo winSdkDir=%WindowsSdkDir% >> %GITHUB_ENV%
           echo winSdkVer=%WindowsSdkVersion% >> %GITHUB_ENV%
