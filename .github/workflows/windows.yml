@@ -65,7 +65,7 @@ jobs:
         run: |
           mkdir bin
           call "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
-          set PATH=C:\Qt\6.7.2\msvc2022_64\bin;%PATH%
+          set PATH=C:\Qt\6.10.3\msvc2022_64\bin;%PATH%
           qmake "QMAKE_MSC_VER=1930" -spec win32-msvc OCAuxiliaryTools.pro
           nmake
           echo winSdkDir=%WindowsSdkDir% >> %GITHUB_ENV%
